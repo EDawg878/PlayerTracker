@@ -1,6 +1,9 @@
 package com.edawg878.tracker.database;
 
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.DatabaseMetaData;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -16,12 +19,13 @@ public abstract class JDBCDatabase implements Database {
     }
 
     public abstract Connection getConnection() throws SQLException;
+
     public abstract String getTableSchema();
 
     public boolean createTable(Connection conn, String table) throws SQLException {
         try (Statement st = conn.createStatement()) {
             DatabaseMetaData meta = conn.getMetaData();
-            if(checkTable(meta, table)) {
+            if (checkTable(meta, table)) {
                 return true;
             } else {
                 st.execute("CREATE TABLE `" + table + "` " + getTableSchema());
@@ -30,7 +34,7 @@ public abstract class JDBCDatabase implements Database {
         }
     }
 
-    private boolean checkTable(DatabaseMetaData meta, String table) throws SQLException{
+    private boolean checkTable(DatabaseMetaData meta, String table) throws SQLException {
         return meta.getTables(null, null, table, null).next();
     }
 

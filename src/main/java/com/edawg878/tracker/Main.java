@@ -16,10 +16,10 @@ import java.util.logging.Level;
  */
 public class Main extends JavaPlugin {
 
+    private final String FAILED_TO_CONVERT = "Failed to convert database: %s";
     private BackendSettings settings;
     private Database database;
     private boolean errorLoading;
-    private final String FAILED_TO_CONVERT = "Failed to convert database: %s";
 
     @Override
     public void onLoad() {
@@ -40,9 +40,9 @@ public class Main extends JavaPlugin {
         }
 
         Backend oldBackend = settings.getConvert();
-        if(oldBackend != null) {
+        if (oldBackend != null) {
             getLogger().info("Attempting to convert database...");
-            if(oldBackend != settings.getBackend()) {
+            if (oldBackend != settings.getBackend()) {
                 if (users.isEmpty()) {
                     if (convert(oldBackend)) {
                         settings.getConfig().set("convert", "none");
@@ -98,13 +98,13 @@ public class Main extends JavaPlugin {
 
     private boolean convert(Backend oldBackend) {
         Database oldDatabase = getDatabase(oldBackend);
-        if(oldBackend != null && oldDatabase.connect()) {
+        if (oldBackend != null && oldDatabase.connect()) {
             Set<User> users = oldDatabase.query();
             int converted = 0;
-            for(User user : users) {
-                    Tracker.add(user);
-                    database.log(user.getName(), user.getUniqueId());
-                    converted++;
+            for (User user : users) {
+                Tracker.add(user);
+                database.log(user.getName(), user.getUniqueId());
+                converted++;
             }
             getLogger().info("Successfully converted " + converted + " users from old database");
             return true;

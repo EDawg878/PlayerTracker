@@ -48,7 +48,7 @@ public class BackendSettings extends Settings {
         try {
             return Backend.valueOf(str.toUpperCase());
         } catch (Exception ex) {
-            if(def != null) {
+            if (def != null) {
                 logger.severe("Invalid backend specified, defaulting to " + def);
             }
         }

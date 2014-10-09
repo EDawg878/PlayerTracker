@@ -6,7 +6,9 @@ import org.bukkit.plugin.Plugin;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -31,7 +33,7 @@ public class SQLiteDatabase extends MySQLDatabase {
     }
 
     private void createDatabase() {
-        if(!Files.exists(database)) {
+        if (!Files.exists(database)) {
             try {
                 Files.createFile(database);
             } catch (IOException e) {

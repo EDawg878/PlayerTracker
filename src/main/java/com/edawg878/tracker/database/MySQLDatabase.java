@@ -1,8 +1,8 @@
 package com.edawg878.tracker.database;
 
 import com.edawg878.tracker.Tracker;
-import com.edawg878.tracker.settings.BackendSettings;
 import com.edawg878.tracker.User;
+import com.edawg878.tracker.settings.BackendSettings;
 import com.edawg878.tracker.util.UUIDFetcher;
 import org.bukkit.plugin.Plugin;
 
@@ -34,12 +34,12 @@ public class MySQLDatabase extends JDBCDatabase {
     @Override
     public String getTableSchema() {
         return "("
-                    + "`player_id` INT UNSIGNED NOT NULL AUTO_INCREMENT,"
-                    + "`player_uuid` BINARY(16) NOT NULL,"
-                    + "`last_username` varchar(16) NOT NULL,"
-                    + "PRIMARY KEY (player_id),"
-                    + "UNIQUE KEY (player_uuid)"
-                    + ");";
+                + "`player_id` INT UNSIGNED NOT NULL AUTO_INCREMENT,"
+                + "`player_uuid` BINARY(16) NOT NULL,"
+                + "`last_username` varchar(16) NOT NULL,"
+                + "PRIMARY KEY (player_id),"
+                + "UNIQUE KEY (player_uuid)"
+                + ");";
     }
 
     @Override
@@ -70,18 +70,18 @@ public class MySQLDatabase extends JDBCDatabase {
             List<String> toUpdate = new ArrayList<>();
             try (PreparedStatement ps = conn.prepareStatement("SELECT * FROM `players` WHERE `player_id` <> ? AND `last_username` = ?")) {
                 ResultSet rs = ps.executeQuery();
-                while(rs.next()) {
+                while (rs.next()) {
                     String username = rs.getString("last_username");
                     toUpdate.add(username);
                 }
             }
-            if(toUpdate.size() > 0) {
+            if (toUpdate.size() > 0) {
                 try {
                     UUIDFetcher fetcher = new UUIDFetcher(toUpdate);
                     Map<String, UUID> map = fetcher.call();
                     for (Entry<String, UUID> entry : map.entrySet()) {
                         User user = Tracker.find(entry.getValue());
-                        if(user != null) {
+                        if (user != null) {
                             user.setName(entry.getKey());
                         }
                     }
@@ -107,7 +107,7 @@ public class MySQLDatabase extends JDBCDatabase {
         Set<User> users = new HashSet<>();
         try (Connection conn = getConnection(); PreparedStatement ps = conn.prepareStatement("SELECT * FROM `players`")) {
             ResultSet rs = ps.executeQuery();
-            while(rs.next()) {
+            while (rs.next()) {
                 Integer id = rs.getInt("player_id");
                 String username = rs.getString("last_username");
                 UUID uuid = UUIDFetcher.fromBytes(rs.getBytes("player_uuid"));

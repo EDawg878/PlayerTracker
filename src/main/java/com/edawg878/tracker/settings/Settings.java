@@ -29,7 +29,7 @@ public class Settings {
     }
 
     public void saveDefault() {
-        if(!configFile.exists()) {
+        if (!configFile.exists()) {
             plugin.getDataFolder().mkdirs();
             plugin.saveResource(configFile.getName(), false);
         }
@@ -51,7 +51,7 @@ public class Settings {
     }
 
     public void reload() {
-        if(config == null) {
+        if (config == null) {
             load();
         }
     }

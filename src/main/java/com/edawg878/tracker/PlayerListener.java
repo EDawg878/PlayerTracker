@@ -27,7 +27,7 @@ public class PlayerListener implements Listener {
     @EventHandler
     public void onPreLogin(final AsyncPlayerPreLoginEvent event) {
         final User user = Tracker.find(event.getUniqueId());
-        if(user == null) {
+        if (user == null) {
             addNewUser(event.getName(), event.getUniqueId());
         } else {
             checkNameChange(user, event.getName());
@@ -35,7 +35,7 @@ public class PlayerListener implements Listener {
     }
 
     private void checkNameChange(final User user, final String newUsername) {
-        if(!newUsername.equals(user.getName())) {
+        if (!newUsername.equals(user.getName())) {
             scheduler.runTaskAsynchronously(plugin, new Runnable() {
                 @Override
                 public void run() {
