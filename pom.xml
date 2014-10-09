@@ -6,7 +6,7 @@
 
     <groupId>com.edawg878</groupId>
     <artifactId>PlayerTracker</artifactId>
-    <version>1</version>
+    <version>1.1</version>
 
     <build>
         <plugins>

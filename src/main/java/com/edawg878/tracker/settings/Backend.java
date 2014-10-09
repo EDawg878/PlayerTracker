@@ -5,5 +5,5 @@ package com.edawg878.tracker.settings;
  */
 public enum Backend {
 
-    MYSQL
+    MYSQL, SQLITE
 }

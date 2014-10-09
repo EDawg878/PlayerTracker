@@ -1,6 +1,7 @@
 package com.edawg878.tracker.settings;
 
 import com.google.common.base.Charsets;
+import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.Plugin;
 
@@ -53,6 +54,14 @@ public class Settings {
         if(config == null) {
             load();
         }
+    }
+
+    public File getConfigFile() {
+        return configFile;
+    }
+
+    public FileConfiguration getConfig() {
+        return config;
     }
 
 

@@ -12,7 +12,7 @@ public interface Database {
 
     public boolean connect();
     public Integer log(String username, UUID uuid);
-    public void update(Integer id, String username);
+    public void update(Integer id, String oldUsername, String newUsername);
     public Set<User> query();
 
 }

@@ -2,7 +2,6 @@ package com.edawg878.tracker.settings;
 
 import org.bukkit.plugin.Plugin;
 
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
@@ -12,7 +11,7 @@ public class BackendSettings extends Settings {
 
     private Logger logger;
     private Backend backend;
-    public static final String TABLE_NAME = "players";
+    private Backend convert;
 
     public BackendSettings(Plugin plugin) {
         super(plugin, "settings.yml");
@@ -22,10 +21,15 @@ public class BackendSettings extends Settings {
     public void reload() {
         super.reload();
         backend = parseBackend(config.getString("backend"), Backend.MYSQL);
+        convert = parseBackend(config.getString("convert"), null);
     }
 
     public Backend getBackend() {
         return backend;
+    }
+
+    public Backend getConvert() {
+        return convert;
     }
 
     public String getMySQLURL() {
@@ -43,8 +47,10 @@ public class BackendSettings extends Settings {
     private Backend parseBackend(String str, Backend def) {
         try {
             return Backend.valueOf(str.toUpperCase());
-        } catch (IllegalArgumentException ex) {
-            logger.log(Level.SEVERE, "Invalid backend specified, defaulting to " + def);
+        } catch (Exception ex) {
+            if(def != null) {
+                logger.severe("Invalid backend specified, defaulting to " + def);
+            }
         }
         return def;
     }

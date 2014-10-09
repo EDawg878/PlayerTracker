@@ -1,7 +1,5 @@
 package com.edawg878.tracker.database;
 
-import com.edawg878.tracker.settings.BackendSettings;
-
 import java.sql.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -23,20 +21,23 @@ public abstract class JDBCDatabase implements Database {
     public boolean createTable(Connection conn, String table) throws SQLException {
         try (Statement st = conn.createStatement()) {
             DatabaseMetaData meta = conn.getMetaData();
-            boolean found = meta.getTables(null, null, table, null).next();
-            if(found) {
+            if(checkTable(meta, table)) {
                 return true;
             } else {
                 st.execute("CREATE TABLE `" + table + "` " + getTableSchema());
-                return meta.getTables(null, null, table, null).next();
+                return checkTable(meta, table);
             }
         }
+    }
+
+    private boolean checkTable(DatabaseMetaData meta, String table) throws SQLException{
+        return meta.getTables(null, null, table, null).next();
     }
 
     @Override
     public boolean connect() {
         try (Connection conn = getConnection()) {
-            return conn != null && createTable(conn, BackendSettings.TABLE_NAME);
+            return conn != null && createTable(conn, "players");
         } catch (SQLException ex) {
             logger.log(Level.SEVERE, "Error connecting to database", ex);
         }
